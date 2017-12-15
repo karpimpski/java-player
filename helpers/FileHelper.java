@@ -17,6 +17,7 @@ public class FileHelper
 {
     /*
     * Opens a popup for the user to select a directory.
+    * 
     * @return the selected directory
     */
     public static File selectDirectory()
@@ -38,6 +39,7 @@ public class FileHelper
     
     /*
     * Given a directory, finds all music files that belong to it.
+    * 
     * @param parent the parent directory
     * @return       an array of music files
     */
@@ -84,6 +86,7 @@ public class FileHelper
     
     /*
     * Given an array of files, creates a new array with only non-empty files.
+    * 
     * @param arr        array of files
     * @param emptyCount how many empty files are in the array
     * @return           array of only non-empty files
