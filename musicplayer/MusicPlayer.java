@@ -2,14 +2,11 @@ package musicplayer;
 
 import helpers.FileHelper;
 import java.io.File;
-import java.net.URLEncoder;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 public class MusicPlayer extends Application {
     
@@ -26,9 +23,9 @@ public class MusicPlayer extends Application {
         
         //get music files from user
         File musicDir = FileHelper.selectDirectory();
-        File[] musicFiles = FileHelper.getMusicChildren(musicDir);
+        Song[] songs = FileHelper.getMusicChildren(musicDir);
         
-        addMusicButtons(musicFiles, root);
+        addMusicButtons(songs, root);
         
         Scene scene = new Scene(root, 300, 250);
         
@@ -40,32 +37,19 @@ public class MusicPlayer extends Application {
     /*
     * Adds music buttons to screen.
     *
-    * @param musicFiles array of audio files
+    * @param songs array of songs to be displayed to user
     */
-    private static void addMusicButtons(File[] musicFiles, GridPane root)
+    private static void addMusicButtons(Song[] songs, GridPane root)
     {
-        for(int i = 0; i < musicFiles.length; i++)
+        for(int i = 0; i < songs.length; i++)
         {
-            final File currentFile = musicFiles[i];
-            Button btn = new Button(currentFile.getName());
+            final Song currentSong = songs[i];
+            Button btn = new Button(currentSong.getName());
             btn.setOnAction(e -> {
-                play(currentFile);
+                currentSong.play();
             });
             root.add(btn, 0, i);
         }
     }
     
-    public static void play(File file)
-    {
-        try
-        {
-            Media hit = new Media(file.toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(hit);
-            mediaPlayer.play();
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
-    }
 }

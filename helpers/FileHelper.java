@@ -8,6 +8,7 @@ package helpers;
 import java.io.File;
 import java.nio.file.Files;
 import javax.swing.JFileChooser;
+import musicplayer.Song;
 
 /**
  *
@@ -43,7 +44,7 @@ public class FileHelper
     * @param parent the parent directory
     * @return       an array of music files
     */
-    public static File[] getMusicChildren(File parent)
+    public static Song[] getMusicChildren(File parent)
     {
         File[] children = parent.listFiles();
         File[] tmpResult = new File[children.length];
@@ -79,7 +80,7 @@ public class FileHelper
             }
         }
         
-        File[] result = stripEmpty(tmpResult, emptyCount);
+        Song[] result = stripEmpty(tmpResult, emptyCount);
         
         return result;
     }
@@ -91,10 +92,10 @@ public class FileHelper
     * @param emptyCount how many empty files are in the array
     * @return           array of only non-empty files
     */
-    public static File[] stripEmpty(File[] arr, int emptyCount)
+    public static Song[] stripEmpty(File[] arr, int emptyCount)
     {
         //initialize result and resultIndex
-        File[] result = new File[arr.length - emptyCount];
+        Song[] result = new Song[arr.length - emptyCount];
         int resultIndex = 0;
         
         //add each non-empty file to the result array
@@ -102,7 +103,7 @@ public class FileHelper
         {
             if(!file.getPath().equals(""))
             {
-                result[resultIndex++] = file;
+                result[resultIndex++] = new Song(file);
             }
         }
         
