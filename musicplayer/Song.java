@@ -3,12 +3,11 @@ package musicplayer;
 import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javax.naming.Context;
 
 public class Song 
 {
-    private File songFile;
-    private MediaPlayer mediaPlayer;
+    final private File songFile;
+    final private MediaPlayer mediaPlayer;
     
     public Song(File f)
     {

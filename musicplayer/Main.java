@@ -1,13 +1,11 @@
 package musicplayer;
 
 import javafx.application.Application;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javax.swing.event.ChangeListener;
 
 public class Main extends Application 
 {
@@ -34,6 +32,7 @@ public class Main extends Application
             root.add(btn, 0, i);
         }
         
+        //create volume slider
         Slider volumeSlider = new Slider();
         volumeSlider.setMin(0);
         volumeSlider.setMax(100);
@@ -43,6 +42,7 @@ public class Main extends Application
         });
         root.add(volumeSlider, 0, i++);
         
+        //pass volumeSlider variable to player
         player.assignVolumeSlider(volumeSlider);
         
         Scene scene = new Scene(root, 300, 250);
@@ -52,6 +52,13 @@ public class Main extends Application
         primaryStage.show();
     }
     
+    /*
+    * Given a player and a song, determine which action to perform (pause,
+    * switch, or play).
+    *
+    * @param player      Player instance to control the music
+    * @param currentSong Song object to be played or paused
+    */
     private static void songClick(Player player, Song currentSong)
     {
         if(player.currentSong != currentSong)

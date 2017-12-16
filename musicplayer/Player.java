@@ -5,10 +5,6 @@ import java.io.File;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 
-/**
- *
- * @author michael
- */
 public class Player 
 {
     public File musicDir;
