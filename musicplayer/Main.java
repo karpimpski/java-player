@@ -1,11 +1,13 @@
 package musicplayer;
 
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javax.swing.event.ChangeListener;
 
 public class Main extends Application 
 {
@@ -32,11 +34,16 @@ public class Main extends Application
             root.add(btn, 0, i);
         }
         
-        Slider volume = new Slider();
-        volume.setMin(0);
-        volume.setMax(100);
-        volume.setValue(50);
-        root.add(volume, 0, i++);
+        Slider volumeSlider = new Slider();
+        volumeSlider.setMin(0);
+        volumeSlider.setMax(100);
+        volumeSlider.setValue(50);
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            player.setVolume();
+        });
+        root.add(volumeSlider, 0, i++);
+        
+        player.assignVolumeSlider(volumeSlider);
         
         Scene scene = new Scene(root, 300, 250);
         

@@ -3,6 +3,7 @@ package musicplayer;
 import java.io.File;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javax.naming.Context;
 
 public class Song 
 {
@@ -41,5 +42,10 @@ public class Song
     public void stop()
     {
         mediaPlayer.stop();
+    }
+    
+    public void setVolume(double volume)
+    {
+        mediaPlayer.setVolume(volume);
     }
 }
