@@ -7,7 +7,6 @@ import javafx.scene.media.MediaPlayer;
 public class Song 
 {
     private File songFile;
-    
     private MediaPlayer mediaPlayer;
     
     public Song(File f)

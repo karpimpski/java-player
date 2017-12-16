@@ -6,7 +6,6 @@
 package helpers;
 
 import java.io.File;
-import java.nio.file.Files;
 import javax.swing.JFileChooser;
 import musicplayer.Song;
 
@@ -57,11 +56,8 @@ public class FileHelper
             
             try
             {
-                //determine content type
-                String contentType = Files.probeContentType(child.toPath());
-
                 //if content type is audio, add the file to result
-                if(contentType.split("/")[0].equalsIgnoreCase("audio"))
+                if(child.getName().substring(child.getName().lastIndexOf(".")+1).equalsIgnoreCase("mp3"))
                 {
                     tmpResult[i] = child;
                 }
@@ -74,6 +70,7 @@ public class FileHelper
             }
             catch(Exception e)
             {
+                //add empty song to avoid array errors
                 tmpResult[i] = new File("");
                 emptyCount++;
                 System.out.println("Error: " + e);
@@ -92,7 +89,7 @@ public class FileHelper
     * @param emptyCount how many empty files are in the array
     * @return           array of only non-empty files
     */
-    public static Song[] stripEmpty(File[] arr, int emptyCount)
+    private static Song[] stripEmpty(File[] arr, int emptyCount)
     {
         //initialize result and resultIndex
         Song[] result = new Song[arr.length - emptyCount];
