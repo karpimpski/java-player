@@ -2,6 +2,7 @@ package musicplayer;
 
 import helpers.FileHelper;
 import java.io.File;
+import javafx.stage.Stage;
 
 /**
  *
@@ -14,10 +15,10 @@ public class Player
     public Song currentSong;
     public boolean playing = false;
     
-    public Player()
+    public Player(Stage primaryStage)
     {
         //get music files from user
-        musicDir = FileHelper.selectDirectory();
+        musicDir = FileHelper.selectDirectory(primaryStage);
         songs = FileHelper.getMusicChildren(musicDir);
     }
     

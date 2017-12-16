@@ -6,7 +6,8 @@
 package helpers;
 
 import java.io.File;
-import javax.swing.JFileChooser;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import musicplayer.Song;
 
 /**
@@ -20,21 +21,12 @@ public class FileHelper
     * 
     * @return the selected directory
     */
-    public static File selectDirectory()
+    public static File selectDirectory(Stage primaryStage)
     {
-        //open chooser to the user's home directory
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        chooser.setDialogTitle("Select music folder");
+        DirectoryChooser chooser = new DirectoryChooser();
+        File selectedDirectory = chooser.showDialog(primaryStage);
         
-        //set selection to directories only
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setAcceptAllFileFilterUsed(false);
-        
-        //open file chooser with "Select" button
-        chooser.showDialog(chooser, "Select");
-        
-        return chooser.getSelectedFile();
+        return selectedDirectory;
     }
     
     /*

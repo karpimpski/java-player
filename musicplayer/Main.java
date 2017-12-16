@@ -17,7 +17,7 @@ public class Main extends Application
     public void start(Stage primaryStage) {
         GridPane root = new GridPane();
         
-        Player player = new Player();
+        Player player = new Player(primaryStage);
         
         addMusicButtons(player.songs, root, player);
         
