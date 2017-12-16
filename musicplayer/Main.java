@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class MusicPlayer extends Application {
+public class Main extends Application {
     
     /**
      * @param args the command line arguments
