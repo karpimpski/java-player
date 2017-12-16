@@ -2,6 +2,7 @@ package musicplayer;
 
 import helpers.FileHelper;
 import java.io.File;
+import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 
@@ -12,6 +13,7 @@ public class Player
     public Song currentSong;
     public boolean playing = false;
     public Slider volumeSlider;
+    public Button playBtn;
     
     public Player(Stage primaryStage)
     {
@@ -22,15 +24,23 @@ public class Player
     
     public void play()
     {
-        setVolume();
-        currentSong.play();
-        playing = true;
+        if(currentSong != null)
+        {
+            playBtn.setText("Pause");
+            setVolume();
+            currentSong.play();
+            playing = true;
+        }
     }
     
     public void pause()
     {
-        playing = false;
-        currentSong.pause();
+        playBtn.setText("Play");
+        if(currentSong != null)
+        {
+            playing = false;
+            currentSong.pause();
+        }
     }
     
     public void switchSong(Song song)

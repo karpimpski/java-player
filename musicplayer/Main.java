@@ -42,6 +42,14 @@ public class Main extends Application
         });
         root.add(volumeSlider, 0, i++);
         
+        //create play button
+        Button playBtn = new Button("Play");
+        player.playBtn = playBtn;
+        playBtn.setOnAction(e -> {
+            playClick(playBtn, player);
+        });
+        root.add(playBtn, 0, i++);
+        
         //pass volumeSlider variable to player
         player.assignVolumeSlider(volumeSlider);
         
@@ -53,21 +61,28 @@ public class Main extends Application
     }
     
     /*
-    * Given a player and a song, determine which action to perform (pause,
-    * switch, or play).
+    * Given a player and a song, determine which action to perform (swtich,
+    * play, or reset.
     *
     * @param player      Player instance to control the music
     * @param currentSong Song object to be played or paused
     */
     private static void songClick(Player player, Song currentSong)
     {
-        if(player.currentSong != currentSong)
+        player.switchSong(currentSong);
+    }
+    
+    /*
+    * Given a player and a song, determine whether to pause or play.
+    *
+    * @param player      Player instance to control the music
+    * @param currentSong Song object to be played or paused
+    */
+    private static void playClick(Button playBtn, Player player)
+    {
+        if(player.currentSong != null)
         {
-            player.switchSong(currentSong);
-        }
-        else
-        {
-            if(player.playing) 
+            if(player.playing)
             {
                 player.pause();
             }
@@ -77,5 +92,4 @@ public class Main extends Application
             }
         }
     }
-    
 }
