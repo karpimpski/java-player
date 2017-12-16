@@ -4,11 +4,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Main extends Application 
 {
+    private Player player;
     
     public static void main(String[] args) {
         launch(args);
@@ -18,7 +20,7 @@ public class Main extends Application
     public void start(Stage primaryStage) {
         GridPane root = new GridPane();
         
-        Player player = new Player(primaryStage);
+        player = new Player(primaryStage);
         
         //create song buttons
         int i;
@@ -26,8 +28,9 @@ public class Main extends Application
         {
             final Song currentSong = player.songs[i];
             Button btn = new Button(currentSong.getName());
+            btn.setFocusTraversable(false);
             btn.setOnAction(e -> {
-                songClick(player, currentSong);
+                songClick(currentSong);
             });
             root.add(btn, 0, i);
         }
@@ -46,7 +49,7 @@ public class Main extends Application
         Button playBtn = new Button("Play");
         player.playBtn = playBtn;
         playBtn.setOnAction(e -> {
-            playClick(playBtn, player);
+            playClick();
         });
         root.add(playBtn, 0, i++);
         
@@ -54,6 +57,7 @@ public class Main extends Application
         player.assignVolumeSlider(volumeSlider);
         
         Scene scene = new Scene(root, 300, 250);
+        scene.setOnKeyPressed(e -> { keyPressed(e); });
         
         primaryStage.setTitle("Music Player");
         primaryStage.setScene(scene);
@@ -67,7 +71,7 @@ public class Main extends Application
     * @param player      Player instance to control the music
     * @param currentSong Song object to be played or paused
     */
-    private static void songClick(Player player, Song currentSong)
+    private void songClick(Song currentSong)
     {
         player.switchSong(currentSong);
     }
@@ -78,7 +82,7 @@ public class Main extends Application
     * @param player      Player instance to control the music
     * @param currentSong Song object to be played or paused
     */
-    private static void playClick(Button playBtn, Player player)
+    private void playClick()
     {
         if(player.currentSong != null)
         {
@@ -90,6 +94,21 @@ public class Main extends Application
             {
                 player.play();
             }
+        }
+    }
+    
+    /*
+    * Add keyboard listeners (using methods from other click listeners)
+    */
+    private void keyPressed(KeyEvent e)
+    {
+        switch(e.getCode().toString().toLowerCase())
+        {
+            case("space"):
+                playClick();
+                break;
+            default:
+                break;
         }
     }
 }
