@@ -3,6 +3,7 @@ package musicplayer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -19,7 +20,23 @@ public class Main extends Application
         
         Player player = new Player(primaryStage);
         
-        addMusicButtons(player.songs, root, player);
+        //create song buttons
+        int i;
+        for(i = 0; i < player.songs.length; i++)
+        {
+            final Song currentSong = player.songs[i];
+            Button btn = new Button(currentSong.getName());
+            btn.setOnAction(e -> {
+                songClick(player, currentSong);
+            });
+            root.add(btn, 0, i);
+        }
+        
+        Slider volume = new Slider();
+        volume.setMin(0);
+        volume.setMax(100);
+        volume.setValue(50);
+        root.add(volume, 0, i++);
         
         Scene scene = new Scene(root, 300, 250);
         
@@ -28,35 +45,22 @@ public class Main extends Application
         primaryStage.show();
     }
     
-    /*
-    * Adds music buttons to screen.
-    *
-    * @param songs array of songs to be displayed to user
-    */
-    private static void addMusicButtons(Song[] songs, GridPane root, Player player)
+    private static void songClick(Player player, Song currentSong)
     {
-        for(int i = 0; i < songs.length; i++)
+        if(player.currentSong != currentSong)
         {
-            final Song currentSong = songs[i];
-            Button btn = new Button(currentSong.getName());
-            btn.setOnAction(e -> {
-                if(player.currentSong != currentSong)
-                {
-                    player.switchSong(currentSong);
-                }
-                else
-                {
-                    if(player.playing) 
-                    {
-                        player.pause();
-                    }
-                    else
-                    {
-                        player.play();
-                    }
-                }
-            });
-            root.add(btn, 0, i);
+            player.switchSong(currentSong);
+        }
+        else
+        {
+            if(player.playing) 
+            {
+                player.pause();
+            }
+            else
+            {
+                player.play();
+            }
         }
     }
     
