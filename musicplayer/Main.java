@@ -1,18 +1,14 @@
 package musicplayer;
 
-import helpers.FileHelper;
-import java.io.File;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main extends Application 
+{
     
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }
@@ -21,11 +17,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         GridPane root = new GridPane();
         
-        //get music files from user
-        File musicDir = FileHelper.selectDirectory();
-        Song[] songs = FileHelper.getMusicChildren(musicDir);
+        Player player = new Player();
         
-        addMusicButtons(songs, root);
+        addMusicButtons(player.songs, root, player);
         
         Scene scene = new Scene(root, 300, 250);
         
@@ -39,14 +33,14 @@ public class Main extends Application {
     *
     * @param songs array of songs to be displayed to user
     */
-    private static void addMusicButtons(Song[] songs, GridPane root)
+    private static void addMusicButtons(Song[] songs, GridPane root, Player player)
     {
         for(int i = 0; i < songs.length; i++)
         {
             final Song currentSong = songs[i];
             Button btn = new Button(currentSong.getName());
             btn.setOnAction(e -> {
-                currentSong.play();
+                player.switchSong(currentSong);
             });
             root.add(btn, 0, i);
         }
