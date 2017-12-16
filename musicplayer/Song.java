@@ -8,9 +8,13 @@ public class Song
 {
     private File songFile;
     
+    private MediaPlayer mediaPlayer;
+    
     public Song(File f)
     {
         songFile = f;
+        Media hit = new Media(songFile.toURI().toString());
+        mediaPlayer = new MediaPlayer(hit);
     }
     
     public String getName()
@@ -22,13 +26,21 @@ public class Song
     {
         try
         {
-            Media hit = new Media(songFile.toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(hit);
             mediaPlayer.play();
         }
         catch(Exception e)
         {
             System.out.println(e);
         }
+    }
+    
+    public void pause()
+    {
+        mediaPlayer.pause();
+    }
+    
+    public void stop()
+    {
+        mediaPlayer.stop();
     }
 }

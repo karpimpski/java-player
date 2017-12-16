@@ -12,6 +12,7 @@ public class Player
     public File musicDir;
     public Song[] songs;
     public Song currentSong;
+    public boolean playing = false;
     
     public Player()
     {
@@ -22,11 +23,19 @@ public class Player
     
     public void play()
     {
+        playing = true;
         currentSong.play();
+    }
+    
+    public void pause()
+    {
+        playing = false;
+        currentSong.pause();
     }
     
     public void switchSong(Song song)
     {
+        if(currentSong != null) currentSong.stop();
         currentSong = song;
         play();
     }

@@ -40,7 +40,21 @@ public class Main extends Application
             final Song currentSong = songs[i];
             Button btn = new Button(currentSong.getName());
             btn.setOnAction(e -> {
-                player.switchSong(currentSong);
+                if(player.currentSong != currentSong)
+                {
+                    player.switchSong(currentSong);
+                }
+                else
+                {
+                    if(player.playing) 
+                    {
+                        player.pause();
+                    }
+                    else
+                    {
+                        player.play();
+                    }
+                }
             });
             root.add(btn, 0, i);
         }
