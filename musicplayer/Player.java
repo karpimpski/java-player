@@ -2,6 +2,7 @@ package musicplayer;
 
 import helpers.FileHelper;
 import java.io.File;
+import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
@@ -19,7 +20,7 @@ public class Player
     {
         //get music files from user
         musicDir = FileHelper.selectDirectory(primaryStage);
-        songs = FileHelper.getMusicChildren(musicDir);
+        songs = FileHelper.getMusicChildren(musicDir, new ArrayList());
     }
     
     public void play()
