@@ -41,7 +41,7 @@ public class Main extends Application
         VBox songBox = new VBox();
         for(Song currentSong : player.songs)
         {
-            Button btn = new Button(currentSong.getName());
+            Button btn = new Button(currentSong.title);
             btn.setPrefWidth(Double.MAX_VALUE);
             btn.setOnMouseClicked(e -> {
                 songClick(currentSong);
@@ -64,7 +64,7 @@ public class Main extends Application
         volumeSlider.setMax(100);
         volumeSlider.setValue(50);
         volumeSlider.valueProperty().addListener((ob, ov, nv) -> {
-            player.setVolume();
+            if(player.currentSong != null) player.setVolume();
         });
         root.getChildren().add(volumeSlider);
         player.assignVolumeSlider(volumeSlider);
