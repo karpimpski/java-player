@@ -23,6 +23,9 @@ public class Song
         gatherMetaData();
     }
     
+    /*
+    * Using the JAudioTagger library, fetches and assigns song's metadata.
+    */
     private void gatherMetaData()
     {
         try
@@ -40,14 +43,7 @@ public class Song
     
     public void play()
     {
-        try
-        {
-            mediaPlayer.play();
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
+        mediaPlayer.play();
     }
     
     public void pause()
