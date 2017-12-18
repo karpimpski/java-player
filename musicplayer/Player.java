@@ -46,7 +46,7 @@ public class Player
     
     public void switchSong(Song song)
     {
-        if(currentSong != null) currentSong.stop();
+        if(playing) currentSong.stop();
         currentSong = song;
         play();
     }

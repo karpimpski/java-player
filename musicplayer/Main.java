@@ -3,14 +3,16 @@ package musicplayer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application 
 {
     private Player player;
+    private VBox root;
     
     public static void main(String[] args) {
         launch(args);
@@ -18,43 +20,12 @@ public class Main extends Application
     
     @Override
     public void start(Stage primaryStage) {
-        GridPane root = new GridPane();
-        
+        root = new VBox();
         player = new Player(primaryStage);
         
-        //create song buttons
-        int i;
-        for(i = 0; i < player.songs.length; i++)
-        {
-            final Song currentSong = player.songs[i];
-            Button btn = new Button(currentSong.getName());
-            btn.setFocusTraversable(false);
-            btn.setOnAction(e -> {
-                songClick(currentSong);
-            });
-            root.add(btn, 0, i);
-        }
-        
-        //create volume slider
-        Slider volumeSlider = new Slider();
-        volumeSlider.setMin(0);
-        volumeSlider.setMax(100);
-        volumeSlider.setValue(50);
-        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            player.setVolume();
-        });
-        root.add(volumeSlider, 0, i++);
-        
-        //create play button
-        Button playBtn = new Button("Play");
-        player.playBtn = playBtn;
-        playBtn.setOnAction(e -> {
-            playClick();
-        });
-        root.add(playBtn, 0, i++);
-        
-        //pass volumeSlider variable to player
-        player.assignVolumeSlider(volumeSlider);
+        addSongContainer();
+        addVolumeSlider();
+        addPlayBtn();
         
         Scene scene = new Scene(root, 300, 250);
         scene.setOnKeyPressed(e -> { keyPressed(e); });
@@ -62,6 +33,52 @@ public class Main extends Application
         primaryStage.setTitle("Music Player");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    private void addSongContainer()
+    {
+        //add all songs to VBox
+        VBox songBox = new VBox();
+        for(int i = 0; i < player.songs.length; i++)
+        {
+            final Song currentSong = player.songs[i];
+            Button btn = new Button(currentSong.getName());
+            btn.setPrefWidth(Double.MAX_VALUE);
+            btn.setOnAction(e -> {
+                songClick(currentSong);
+            });
+            songBox.getChildren().add(btn);
+        }
+        
+        //create scrollpane
+        ScrollPane songScroll = new ScrollPane();
+        songScroll.setContent(songBox);
+        songScroll.setFitToWidth(true);
+        
+        root.getChildren().add(songScroll);
+    }
+    
+    private void addVolumeSlider()
+    {
+        Slider volumeSlider = new Slider();
+        volumeSlider.setMin(0);
+        volumeSlider.setMax(100);
+        volumeSlider.setValue(50);
+        volumeSlider.valueProperty().addListener((ob, ov, nv) -> {
+            player.setVolume();
+        });
+        root.getChildren().add(volumeSlider);
+        player.assignVolumeSlider(volumeSlider);
+    }
+    
+    private void addPlayBtn()
+    {
+        Button playBtn = new Button("Play");
+        player.playBtn = playBtn;
+        playBtn.setOnAction(e -> {
+            playClick();
+        });
+        root.getChildren().add(playBtn);
     }
     
     /*
