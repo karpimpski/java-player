@@ -23,7 +23,7 @@ public class Main extends Application
         root = new VBox();
         player = new Player(primaryStage);
         
-        addSongContainer();
+        addSongButtons();
         addVolumeSlider();
         addPlayBtn();
         
@@ -35,16 +35,15 @@ public class Main extends Application
         primaryStage.show();
     }
     
-    private void addSongContainer()
+    private void addSongButtons()
     {
         //add all songs to VBox
         VBox songBox = new VBox();
-        for(int i = 0; i < player.songs.length; i++)
+        for(Song currentSong : player.songs)
         {
-            final Song currentSong = player.songs[i];
             Button btn = new Button(currentSong.getName());
             btn.setPrefWidth(Double.MAX_VALUE);
-            btn.setOnAction(e -> {
+            btn.setOnMouseClicked(e -> {
                 songClick(currentSong);
             });
             songBox.getChildren().add(btn);
