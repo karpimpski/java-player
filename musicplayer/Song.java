@@ -10,10 +10,11 @@ import org.jaudiotagger.tag.Tag;
 
 public class Song 
 {
-    final private File songFile;
+    final public File songFile;
     final private MediaPlayer mediaPlayer;
     
     public String title;
+    public Album album;
     
     public Song(File f)
     {
