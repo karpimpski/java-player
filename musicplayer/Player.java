@@ -19,12 +19,14 @@ public class Player
     public boolean playing = false;
     public Slider volumeSlider;
     public Button playBtn;
+    public Album[] albums;
     
     public Player(Stage primaryStage)
     {
         //get music files from user
         musicDir = FileHelper.selectDirectory(primaryStage);
         songs = FileHelper.getMusicChildren(musicDir, new ArrayList());
+        albums = getAlbums();
         System.out.println(getAlbums().length);
     }
     
@@ -46,13 +48,18 @@ public class Player
                 Album album = new Album(albumString);
                 albumStrings.add(albumString);
                 albums.add(album);
-                
+                album.addSong(song);
             }
             else
             {
-                Album album = new Album(albumString);
-                album.addSong(song);
-                song.album = album;
+                for(Album selectedAlbum : albums)
+                {
+                    if(selectedAlbum.title.equalsIgnoreCase(albumString))
+                    {
+                        selectedAlbum.addSong(song);
+                        song.album = selectedAlbum;
+                    }
+                }
             }
         }
         

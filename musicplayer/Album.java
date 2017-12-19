@@ -18,8 +18,13 @@ public class Album
     */
     public void addSong(Song song)
     {
-        Song[] tmpSongs = Arrays.copyOf(songs, songs.length + 1);
-        tmpSongs[tmpSongs.length - 1] = song;
-        songs = tmpSongs;
+        songs = append(song);
+    }
+    
+    public Song[] append(Song song)
+    {
+        Song[] tmpSongs = Arrays.copyOf(songs, songs.length+1);
+        tmpSongs[songs.length] = song;
+        return tmpSongs;
     }
 }
