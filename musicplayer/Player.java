@@ -20,6 +20,7 @@ public class Player
     public Slider volumeSlider;
     public Button playBtn;
     public Album[] albums;
+    public Artist[] artists;
     
     public Player(Stage primaryStage)
     {
@@ -27,7 +28,7 @@ public class Player
         musicDir = FileHelper.selectDirectory(primaryStage);
         songs = FileHelper.getMusicChildren(musicDir, new ArrayList());
         albums = getAlbums();
-        System.out.println(getAlbums().length);
+        artists = getArtists();
     }
     
     /*
@@ -40,8 +41,11 @@ public class Player
         
         for(Song song : songs)
         {
+            //create album string and determine if album is already known
             String albumString = getAlbumString(song);
             boolean knownAlbum = albumStrings.contains(albumString);
+            
+            //if album isn't known, create a new one
             if(!knownAlbum)
             {
                 if(albumString.equals("")) albumString = "Unknown";
@@ -49,7 +53,9 @@ public class Player
                 albumStrings.add(albumString);
                 albums.add(album);
                 album.addSong(song);
+                song.album = album;
             }
+            //if album is known, find it and 
             else
             {
                 for(Album selectedAlbum : albums)
@@ -78,6 +84,60 @@ public class Player
             AudioFile f = AudioFileIO.read(song.songFile);
             Tag tag = f.getTag();
             return tag.getFirst(FieldKey.ALBUM);
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Error: " + ex);
+        }
+        
+        return "";
+    }
+    
+    public Artist[] getArtists()
+    {
+        ArrayList<String> artistStrings = new ArrayList();
+        ArrayList<Artist> artists = new ArrayList();
+        
+        for(Album album : albums)
+        {
+            //create album string and determine if album is already known
+            String artistString = getArtistString(album);
+            boolean knownArtist = artistStrings.contains(artistString);
+            
+            //if album isn't known, create a new one
+            if(!knownArtist)
+            {
+                if(artistString.equals("")) artistString = "Unknown";
+                Artist artist = new Artist(artistString);
+                artistStrings.add(artistString);
+                artists.add(artist);
+                artist.addAlbum(album);
+                album.artist = artist;
+            }
+            //if album is known, find it add to Artist
+            else
+            {
+                for(Artist selectedArtist : artists)
+                {
+                    if(selectedArtist.title.equalsIgnoreCase(artistString))
+                    {
+                        selectedArtist.addAlbum(album);
+                        album.artist = selectedArtist;
+                    }
+                }
+            }
+        }
+        
+        return artists.toArray(new Artist[artists.size()]);
+    }
+    
+    private String getArtistString(Album album)
+    {
+        try
+        {
+            AudioFile f = AudioFileIO.read(album.songs[0].songFile);
+            Tag tag = f.getTag();
+            return tag.getFirst(FieldKey.ALBUM_ARTIST);
         }
         catch(Exception ex)
         {

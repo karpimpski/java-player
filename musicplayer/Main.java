@@ -28,7 +28,7 @@ public class Main extends Application
         songScroll.setFitToWidth(true);
         root.getChildren().add(songScroll);
         
-        addAlbumButtons(songScroll);
+        addArtistButtons(songScroll);
         addVolumeSlider();
         addPlayBtn();
         
@@ -57,20 +57,34 @@ public class Main extends Application
         songScroll.setContent(songBox);
     }
     
-    public void addAlbumButtons(ScrollPane songScroll)
+    public void addAlbumButtons(ScrollPane songScroll, Album[] albums)
     {
         VBox albumBox = new VBox();
-        for(Album currentAlbum : player.albums)
+        for(Album currentAlbum : albums)
         {
             Button btn = new Button(currentAlbum.title);
             btn.setOnMouseClicked(e -> {
-                System.out.println(currentAlbum.songs.length);
                 addSongButtons(songScroll, currentAlbum.songs); 
             });
             albumBox.getChildren().add(btn);
         }
         
         songScroll.setContent(albumBox);
+    }
+    
+    public void addArtistButtons(ScrollPane songScroll)
+    {
+        VBox artistBox = new VBox();
+        for(Artist currentArtist : player.artists)
+        {
+            Button btn = new Button(currentArtist.title);
+            btn.setOnMouseClicked(e -> {
+                addAlbumButtons(songScroll, currentArtist.albums); 
+            });
+            artistBox.getChildren().add(btn);
+        }
+        
+        songScroll.setContent(artistBox);
     }
     
     private void addVolumeSlider()

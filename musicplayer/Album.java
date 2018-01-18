@@ -6,6 +6,7 @@ public class Album
 {
     public String title;
     public Song[] songs;
+    public Artist artist;
     
     public Album (String name)
     {
