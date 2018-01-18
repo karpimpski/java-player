@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application 
@@ -21,11 +22,14 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) {
         root = new VBox();
+        
         player = new Player(primaryStage);
+        addHeaderText();
         
         //create scrollpane
         ScrollPane songScroll = new ScrollPane();
         songScroll.setFitToWidth(true);
+        songScroll.setId("song_scroll");
         root.getChildren().add(songScroll);
         
         addArtistButtons(songScroll);
@@ -33,11 +37,19 @@ public class Main extends Application
         addPlayBtn();
         
         Scene scene = new Scene(root, 300, 250);
+        scene.getStylesheets().add("style.css");
         scene.setOnKeyPressed(e -> { keyPressed(e); });
         
         primaryStage.setTitle("Music Player");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    private void addHeaderText()
+    {
+        Text headerText = new Text("Music Player");
+        headerText.setId("header_text");
+        root.getChildren().add(headerText);
     }
     
     private void addSongButtons(ScrollPane songScroll, Song[] songs)
@@ -51,6 +63,7 @@ public class Main extends Application
             btn.setOnMouseClicked(e -> {
                 songClick(currentSong);
             });
+            btn.getStyleClass().add("option_btn");
             songBox.getChildren().add(btn);
         }
         
@@ -63,9 +76,11 @@ public class Main extends Application
         for(Album currentAlbum : albums)
         {
             Button btn = new Button(currentAlbum.title);
+            btn.setPrefWidth(Double.MAX_VALUE);
             btn.setOnMouseClicked(e -> {
                 addSongButtons(songScroll, currentAlbum.songs); 
             });
+            btn.getStyleClass().add("option_btn");
             albumBox.getChildren().add(btn);
         }
         
@@ -78,9 +93,11 @@ public class Main extends Application
         for(Artist currentArtist : player.artists)
         {
             Button btn = new Button(currentArtist.title);
+            btn.setPrefWidth(Double.MAX_VALUE);
             btn.setOnMouseClicked(e -> {
                 addAlbumButtons(songScroll, currentArtist.albums); 
             });
+            btn.getStyleClass().add("option_btn");
             artistBox.getChildren().add(btn);
         }
         
@@ -103,6 +120,7 @@ public class Main extends Application
     private void addPlayBtn()
     {
         Button playBtn = new Button("Play");
+        playBtn.setId("play_btn");
         player.playBtn = playBtn;
         playBtn.setOnAction(e -> {
             playClick();
@@ -114,7 +132,6 @@ public class Main extends Application
     * Given a player and a song, determine which action to perform (swtich,
     * play, or reset.
     *
-    * @param player      Player instance to control the music
     * @param currentSong Song object to be played or paused
     */
     private void songClick(Song currentSong)
@@ -123,10 +140,7 @@ public class Main extends Application
     }
     
     /*
-    * Given a player and a song, determine whether to pause or play.
-    *
-    * @param player      Player instance to control the music
-    * @param currentSong Song object to be played or paused
+    * Based on current song status, determine whether to pause or play.
     */
     private void playClick()
     {

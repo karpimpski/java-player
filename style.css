@@ -1,0 +1,44 @@
+.root{
+    -fx-background-color: #303030;
+    -fx-padding: 10px;
+    -fx-spacing: 10px;
+}
+
+#first_option_btn{
+    -fx-border-width: 1px 0 1px 0;
+}
+
+.option_btn{
+    -fx-border-width: 0 0 1px 0;
+    -fx-background-color: #151515;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-background-radius: 0;
+}
+
+.option_btn:hover{
+    -fx-background-color: #202020;
+}
+
+#play_btn{
+    -fx-background-color: white;
+    -fx-background-radius: 0;
+    -fx-text-fill: black;
+}
+
+#play_btn:hover{
+    -fx-background-color: #999999;
+}
+
+.button:hover{
+    -fx-cursor: hand;
+}
+
+#song_scroll{
+    -fx-background-color: transparent;
+}
+
+#header_text{
+    -fx-fill: white;
+    -fx-font: 18px Tahoma;
+}
